@@ -17,7 +17,7 @@ $input = "\nUsage\:  ICM_docking.pl  [options]\n
 # set default values that can be overwritten #
 $directory = $ENV{'PWD'};;
 $files_Number = 0;
-
+#
 # get flags #
 if(defined(@ARGV)) {
   @options = @ARGV;
