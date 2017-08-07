@@ -14,9 +14,9 @@ $input = "\nUsage\:  ICM_Test.pl  [options]\n
 # set default values that can be overwritten #
 $directory = $ENV{'PWD'};;
 $files_Number = 0;
-
+$icm_home = "/home/server/ICM_Test_Folder"
 # get flags #
-if(defined(@ARGV)) {
+if((@ARGV)) {
   @options = @ARGV;
   for ($i=0; $i<=$#ARGV; $i++) {
     $flag = $ARGV[$i];
@@ -34,5 +34,11 @@ if($help==1){
   print "$info";
   print "$input\n"; exit();
 }
+
+#Create ICM script
+open(ICM,'>',$icm_home."temp.icm") || die "Please give me output filename $!"; #adjust the ICMscript 
+print ICM "#!$icm_home"."icm -s\n";
+close(ICM)||die $!;
+#Ending creating ICM script
 
 ###################################################################################################################################################################################
