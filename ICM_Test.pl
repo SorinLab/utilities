@@ -1,15 +1,12 @@
 #!/usr/bin/env perl
 #use Cwd qw(abs_path);
 
-$fileinfo = "\nICM_docking.pl last updated 07-01-17\n";
+$fileinfo = "\nICM_Test.pl last updated 07-01-17\n";
 
 ############  define I/O && initialize
-$info = "\nICM_docking.pl performs ICM docking with the specified .mol file for n trials.
-The .mol file must be in your icm home folder (icm-3.7-2b). If you want you can change the home icm folder in this script below.
-The starting docking number can be specified in order to continue where last docking trials left off.
-This is important because you do not want to overwrite older docking scores while compiling them together.";
+$info = "\nICM_Test.pl loads in multiple files into ICM. It will need the full directory path as well as the file(s) count.";
 
-$input = "\nUsage\:  ICM_docking.pl  [options]\n
+$input = "\nUsage\:  ICM_Test.pl  [options]\n
 
 \t-d   \t\tFull Path to the files
 \t-n   \t\tNumber of files to load
@@ -17,15 +14,15 @@ $input = "\nUsage\:  ICM_docking.pl  [options]\n
 # set default values that can be overwritten #
 $directory = $ENV{'PWD'};;
 $files_Number = 0;
-#
+
 # get flags #
 if(defined(@ARGV)) {
   @options = @ARGV;
   for ($i=0; $i<=$#ARGV; $i++) {
     $flag = $ARGV[$i];
     chomp $flag;
-    if($flag eq "-d"){ $i++; $project=$ARGV[$i]; next; }
-    if($flag eq "-n"){ $i++; $ligand=$ARGV[$i]; next; }
+    if($flag eq "-d"){ $i++; $directory=$ARGV[$i]; next; }
+    if($flag eq "-n"){ $i++; $files_Number=$ARGV[$i]; next; }
     if($flag eq "-h"){ $help = 1; }
   }
 }else{
@@ -37,8 +34,6 @@ if($help==1){
   print "$info";
   print "$input\n"; exit();
 }
-
-
 
 ###################################################################################################################################################################################
 if (0) {
