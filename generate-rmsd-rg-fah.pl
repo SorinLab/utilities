@@ -10,13 +10,16 @@
 # This script extract RMSD and Rg values for the F@H data.
 # Type `usegromacs???`, where ??? stands for GROMACS version, before running this script
 
-$usage = "perl  script.pl  [project]  [ndx file]  [starting structure]
+$usage = "perl  script.pl  [project]  [ndx file]  [starting structure] [g_rms least squares group flag] [g_rms RMSD group flag] [g_gyrate group flag]
 NOTE: ndx and starting structure files must have absolute paths";
 # ------------------------------------------------------------------------------------
 # GET ARGUMENTS
-	$project       = $ARGV[0] or die "$usage\n";
-	$ndx           = $ARGV[1] or die "$usage\n";
-	$nativeStrture = $ARGV[2] or die "$usage\n";
+	$project                     = $ARGV[0] or die "$usage\n";
+	$ndx                         = $ARGV[1] or die "$usage\n";
+	$nativeStrture               = $ARGV[2] or die "$usage\n";
+	$g_rms_least_squares_flag    = $ARGV[3] or die "$usage\n";
+	$g_rms_RMSD_calculation_flag = $ARGV[4] or die "$usage\n";
+	$g_gyrate_group_flag         = $ARGV[5] or die "$usage\n";
 
 
 # ------------------------------------------------------------------------------------
