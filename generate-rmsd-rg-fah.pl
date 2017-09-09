@@ -35,23 +35,27 @@ NOTE: ndx and starting structure files must have absolute paths";
 	}
 
 	$currentDir = `pwd`; chomp $currentDir;
+	# Obtain absolute paths for all runs.
 	@runs = &pattern_walk("RUN", $currentDir);
 	$num_runs = scalar(@runs);
 	print "Number of runs is $num_runs\n";
 	mkdir "RMSD-RG";
 	$out_dir = "$currentDir"."/RMSD-RG";
 	foreach $run (@runs){
+		# Continue if the run directory exists
 		if (-d $run) {
 			if ($frame_0_only_switch == 1) {
 				$num_clones = 1;
 				print "$run: $num_clones clones\n";
 				@clones[0] = "$run/CLONE0";
 			} else {
+				# Get all clone directories if not doing a frame0 analysis
 				@clones = &pattern_walk("CLONE", $run);
 				$num_clones = scalar($clones);
 				print "$run: $num_clones clones\n";
 			}
 			foreach $clone (@clones){
+				# Continue if the clone directory exists
 				if (-d $clone) {
 					@rc = &get_rc($clone);
 					$run_number = $rc[0];
@@ -59,6 +63,7 @@ NOTE: ndx and starting structure files must have absolute paths";
 					if ($frame_0_only_switch == 1) {
 						$rmsd_output = "$out_dir/P$project"."_R$run_number"."_C$clone_number"."_F0_rmsd.xvg";
 						$gyrate_output = "$out_dir/P$project"."_R$run_number"."_C$clone_number"."F0_gyrate.xvg";
+						# Obtain the ..f0.pdb file (if more than one there is a problem)
 						@files = &pattern_walk("f0.pdb", $clone);
 						$num_files = scalar(@files); 
 						if ($num_files > 1) {
@@ -71,6 +76,7 @@ NOTE: ndx and starting structure files must have absolute paths";
 						$rmsd_output = "$out_dir/P$project"."_R$run_number"."_C$clone_number"."_rmsd.xvg";
 						$gyrate_output = "$out_dir/P$project"."_R$run_number"."_C$clone_number"."_gyrate.xvg";
 						$data_file_name = "P$project"."_R$run_number"."_C$clone_number".".xtc";
+						# Obtain concatenated .xtc file (if more than one there is a problem) 
 						@files = &pattern_walk($data_file_name, $clone);
 						$num_files = scalar(@files); 
 						if ($num_files > 1) {
@@ -80,6 +86,7 @@ NOTE: ndx and starting structure files must have absolute paths";
 						}
 						$data_file = $files[0];
 					}
+					# Perform GMX commands
 					if ($g_rms_g_gyrate_switch == 1) {
 						`echo $g_rms_least_squares_flag $g_rms_RMSD_calculation_flag | g_rms -s $nativeStrture -f $data_file -n $ndx -o $rmsd_output`;
 					} elsif ($g_rms_g_gyrate_switch == 2) {
