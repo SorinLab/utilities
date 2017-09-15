@@ -126,7 +126,6 @@ foreach my $run (@runs) {
     }
 }    # END OF LOOP THROUGH RUN* directories
 
-# Requires tree Linux OS command
 sub pattern_walk {    # arguments: pattern to search for, absolute path of directory
     local ($pattern, $path, @dirs, $num_dirs);
     $pattern  = $_[0];
@@ -148,7 +147,6 @@ sub get_rc {    # arguments: absolute path of directory
     foreach my $val (@split) {
         if (index($val, "RUN") != -1) {
             $val =~ s/RUN//ig;
-            chdir "..";    # go out of RUN* directory
             @rc[0] = $val;
         }
         if (index($val, "CLONE") != -1) {
